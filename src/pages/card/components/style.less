@@ -1,0 +1,51 @@
+@import '~antd/es/style/themes/default.less';
+
+.construct {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: white;
+  .title {
+    font-size: @font-size-lg;
+  }
+}
+
+.searchHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .buttonParent {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+.headActions {
+  margin-top: 24px;
+  a {
+    text-decoration: underline;
+  }
+}
+
+.table {
+  .action {
+    display: flex;
+    flex-direction: column;
+    .stop {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+    a {
+      color: #3296FA;
+      text-decoration: underline;
+    }
+  }
+
+}
+.menuItem{
+  display: flex;
+  flex-direction: column;
+}
