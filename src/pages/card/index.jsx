@@ -6,6 +6,7 @@ import Construction from "./components/Construction";
 import CardTables from "./components/CardTables";
 import UserModal from "./components/modal/UserModal";
 import {connect} from 'dva';
+import AddChildEmployeeModal from "./components/modal/AddChildEmployeeModal";
 
 @connect(({userModel}) => ({userModel}))
 export default class CardManagement extends React.Component {
@@ -65,6 +66,7 @@ export default class CardManagement extends React.Component {
           <CardTables/>
         </div>
         <UserModal/>
+        <AddChildEmployeeModal/>
       </div>)
   }
 }

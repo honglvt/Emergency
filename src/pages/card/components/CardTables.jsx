@@ -7,7 +7,16 @@ import {connect} from 'dva';
  *WebStorm create by chenhong on 2020/3/25
  *
  */
-@connect(({cardList}) => ({data: cardList.data, total: cardList.total, loading: cardList.loading}))
+@connect(({cardList,}) => ({
+  data: cardList.data,
+  total: cardList.total,
+  loading: cardList.loading,
+  pages: cardList.pages,
+  content: cardList.content,
+  status: cardList.status,
+  typeCode: cardList.typeCode,
+  pageNum: cardList.pageNum
+}))
 export default class CardTables extends React.Component {
 
   constructor(props) {
@@ -23,7 +32,10 @@ export default class CardTables extends React.Component {
     this.props.dispatch({
       type: 'cardList/nextPage',
       payload: {
-        page: page
+        page: page,
+        content: this.props.content,
+        status: this.props.status,
+        typeCode: this.props.typeCode
       }
     })
   };
@@ -32,25 +44,24 @@ export default class CardTables extends React.Component {
     return [
       {
         title: '编号',
-        dataIndex: 'index',
+        dataIndex: 'id',
         fixed: 'left',
+        key: 'id',
       },
       {
         title: '姓名',
         dataIndex: 'name',
-
+        key: 'name',
       },
       {
         title: '手机号',
         dataIndex: 'phone',
-
-        render: (text, record) => (
-          <a style={{color: 'red'}}>{record.phone}</a>
-        )
+        key: 'phone',
       },
       {
         title: '工号',
-        dataIndex: 'memberNum',
+        dataIndex: 'number',
+        key: 'number',
 
       },
       {
@@ -61,21 +72,24 @@ export default class CardTables extends React.Component {
       }, {
         title: '状态',
         dataIndex: 'status',
+        key: 'status',
 
       }, {
         title: '余额',
-        dataIndex: 'money',
-
+        dataIndex: 'balance',
+        key: 'status'
       }, {
         title: '部门',
-        dataIndex: 'bu',
+        dataIndex: 'typeName',
+        key: 'typeName'
       },
       {
         title: '操作',
         dataIndex: 'action',
         fixed: 'right',
+        key: 'action',
         render: (text, record) => (
-          <Row justify="space-between" gutter={8}>
+          <Row justify="space-between" gutter={8} className={styles.actions}>
             <Col><a>停用</a></Col>
             <Col><a>充值</a></Col>
             <Col><a>编辑</a></Col>
@@ -94,11 +108,12 @@ export default class CardTables extends React.Component {
 
 
   render() {
-    const {data, total, loading} = this.props;
+    const {data, total, loading, pages, pageNum} = this.props;
     const pagination = {
       onChange: this.paginationChange,
       total: total,
-      pageSize: 10,
+      pages: pages,
+      current: pageNum
     };
     return (<div style={{marginTop: 16}}>
       <Table columns={this.initColumns()} dataSource={data} scroll={{x: 800}} pagination={pagination}

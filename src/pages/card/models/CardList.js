@@ -14,30 +14,42 @@ export default {
   state: {
     data: [],
     total: 0,
-    loading: false
+    pages: 0,
+    loading: false,
+    content: '',
+    status: '',
+    typeCode: '',
+    pageNum:0
   },
   reducers: {
     'newData'(state, {payload}) {
+      console.log('cardList', payload);
       return {
         ...state, ...payload
       }
     }
   },
   effects: {
-    * nextPage(payload, {call, put}) {
+    * nextPage({payload}, {call, put}) {
       yield put({
         type: 'newData',
         payload: {
-          loading: true
+          loading: true,
+          content: payload.content,
+          status: payload.status,
+          typeCode: payload.typeCode,
         }
       });
-      const response = yield call(getCardList, payload.page);
+
+      const response = yield call(getEmployeeList, payload);
       yield put({
         type: 'newData',
         payload: {
-          data: response.data,
-          total: response.total,
-          loading: false
+          data: response.data.list,
+          total: response.data.total,
+          pages: response.data.pages,
+          loading: false,
+          pageNum:response.data.pageNum
         }
       })
     },

@@ -81,7 +81,7 @@ export default class UserModal extends React.Component {
           <a>{key}</a>
         </div>
         <div className={styles.input}>
-          <Input placeholder={key} onChange={this.inputChange}/>
+          <Input key={'userInput'} placeholder={key} onChange={this.inputChange}/>
         </div>
       </div>)
     });

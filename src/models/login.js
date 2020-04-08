@@ -17,11 +17,13 @@ const Model = {
         type: 'changeLoginStatus',
         payload: {
           response: response,
-          login: response.status === 'ok'
+          login: response.code === 200
         },
       }); // Login successfully
 
-      if (response.status === 'ok') {
+      if (response.code === 200) {
+        localStorage.setItem("Token", response.data.Token);
+
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let {redirect} = params;
@@ -46,6 +48,7 @@ const Model = {
     },
 
     logout({payload}, {call, put}) {
+      localStorage.removeItem("Token");
       const {redirect} = getPageQuery(); // Note: There may be security issues, please note
       if (window.location.pathname !== '/user/login' && !redirect) {
         router.replace({
@@ -55,12 +58,11 @@ const Model = {
           }),
         });
       }
-
       put({
         type: 'changeLoginStatus',
         payload: {
           currentAuthority: undefined,
-          login:false
+          login: false
         }
       })
     },
@@ -69,7 +71,7 @@ const Model = {
     changeLoginStatus(state, {payload}) {
       console.log(payload);
       setAuthority(payload.currentAuthority);
-      return {...state, status: payload.status, type: payload.type,login:payload.login};
+      return {...state, status: payload.status, type: payload.type, login: payload.login};
     },
   },
 };

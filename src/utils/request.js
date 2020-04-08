@@ -2,8 +2,9 @@
  * request 网络请求工具
  * 更详细的 api 文档: https://github.com/umijs/umi-request
  */
-import { extend } from 'umi-request';
-import { notification } from 'antd';
+import {extend} from 'umi-request';
+import {notification} from 'antd';
+
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -26,11 +27,11 @@ const codeMessage = {
  */
 
 const errorHandler = error => {
-  const { response } = error;
+  const {response} = error;
 
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
-    const { status, url } = response;
+    const {status, url} = response;
     notification.error({
       message: `请求错误 ${status}: ${url}`,
       description: errorText,
@@ -47,12 +48,45 @@ const errorHandler = error => {
 /**
  * 配置request请求时的默认参数
  */
-
 const request = extend({
   errorHandler,
   // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
 });
+request.interceptors.request.use(async (url, options) => {
+
+  let c_token = localStorage.getItem("Token");
+  if (c_token) {
+    const headers = {
+      'Token': c_token
+    };
+    return (
+      {
+        url: url,
+        options: {...options, headers: headers},
+      }
+    );
+  } else {
+    return (
+      {
+        url: url,
+        options: {...options},
+      }
+    );
+  }
+
+});
+
+// response拦截器, 处理response
+request.interceptors.response.use((response, options) => {
+  console.log('interceptors',response.body);
+  let token = response.headers.get("Token");
+  if (token) {
+    localStorage.setItem("Token", token);
+  }
+  return response;
+});
+
 // request.interceptors.request.use(async (url, options) => {
 //
 // });

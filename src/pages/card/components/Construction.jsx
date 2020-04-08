@@ -12,79 +12,43 @@ const {SubMenu} = Menu;
  *WebStorm create by chenhong on 2020/3/25
  *  左侧导航栏-组织结构
  */
-@connect(({constructionModel}) => ({}))
+@connect(({constructionModel, cardList, addChildEmployeeModel}) => ({
+  menuData: constructionModel.menuData,
+  currentSelectedMenu: constructionModel.currentSelectedMenu,
+  content: cardList.content,
+  status: cardList.status,
+  typeCode: cardList.typeCode
+}))
 export default class Construction extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      moreActionsVisible: false,
+      currentSelectedItem: {},
+      openKeys: [],
+      preOpenKeys: [],
+    }
   }
-
-
-  bus = [
-    {
-      key: '部门一',
-      child: [
-        {
-          key: '子部门1.1'
-        },
-        {
-          key: '子部门1.2'
-        }
-        ,
-        {
-          key: '子部门1.2',
-          child: [
-            {
-              key: '子部门1.2.1',
-            }
-          ]
-        }
-      ]
-    },
-    {
-      key: '部门二',
-      child: [
-        {
-          key: '子部门2.1'
-        },
-        {
-          key: '子部门2.2'
-        }
-        ,
-        {
-          key: '子部门2.2',
-          child: [
-            {
-              key: '子部门2.2.1',
-            }, {
-              key: '子部门2.2.2',
-            }, {
-              key: '子部门2.2.3',
-            }, {
-              key: '子部门2.2.4',
-            },
-          ]
-        }
-      ]
-    },
-  ];
 
   /**
    * 创建菜单
    * @type {function(*=): Array}
    */
-  createMenu = ((menuData) => {  //创建菜单
+  createMenu = (menuData) => {
+    //创建菜单
     //let itemIndex = 0; //累计的每一项索引
     let submenuIndex = 0; //累计的每一项展开菜单索引
     let menu = [];
     const create = (menuData, el) => {
       for (let i = 0; i < menuData.length; i++) {
-        if (menuData[i].child) {  //如果有子级菜单
+        if (menuData[i].children.length > 0) {  //如果有子级菜单
           let children = [];
-          create(menuData[i].child, children);
+          create(menuData[i].children, children);
           submenuIndex++;
           el.push(
             <SubMenu
+              // onTitleClick={this.subMenuClick}
               key={menuData[i].id}
               title={
                 <span>{menuData[i].dataName}</span>
@@ -100,60 +64,209 @@ export default class Construction extends React.Component {
           )
         }
       }
-
     };
-    create(menuData, menu);
+    create(menuData.children, menu);
     return menu;
-  });
+  };
 
   /**
    * 组织结构里的搜索框
    * @param text
    */
   search = (text) => {
-    console.log(text);
   };
-  text = <span>Title</span>;
-  content = (
-    <div>
-      <p>添加子部门</p>
-      <p>修改名称</p>
-      <p>删除</p>
-      <p>上移</p>
-    </div>
-  );
 
+  /**
+   *弹出部门信息框
+   */
+  showEmpeloyeeModal = (add) => {
+
+    this.props.dispatch({
+      type: 'addChildEmployeeModel/newData',
+      payload: {
+        visible: true,
+        add: add,
+        pId: this.props.currentSelectedMenu.pId,
+        id: this.props.currentSelectedMenu.id,
+        dataCode: add ? '' : this.props.currentSelectedMenu.dataCode,
+        dataName: add ? '' : this.props.currentSelectedMenu.dataName,
+        enable: true,
+        loading: false,
+        title: add ? '添加子部门' : this.props.currentSelectedMenu.dataName
+      }
+    });
+    this.hide();
+  };
+
+  text = <span>Title</span>;
+  content = () => {
+    return (
+      <div>
+        <div onClick={() => {
+          this.showEmpeloyeeModal(true)
+        }}>添加子部门
+        </div>
+        <div onClick={() => {
+          this.showEmpeloyeeModal(false)
+        }}>查看
+        </div>
+      </div>
+    );
+  };
+  /**
+   * 最底层的菜单 Menu-Item
+   * @param child
+   * @returns {*}
+   */
+  handleVisibleChange = moreActionsVisible => {
+    this.setState({moreActionsVisible: moreActionsVisible});
+  };
+  hide = () => {
+    this.setState({moreActionsVisible: false});
+  };
   constructionItem = (child) => {
     return (
       <Menu.Item key={child.id}>
-        <Link>
-          <div style={{display: 'flex', alignItems: 'center'}}>
-            {child.dataName}
-            <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
-              <Popover placement="bottomRight" content={this.content} trigger="click">
-                <IconFont type="icon-gengduo"/>
-              </Popover>
-            </div>
-          </div>
-        </Link>
+        <div style={{display: 'flex', alignItems: 'center'}}>
+          {child.dataName}
+          {child.showMoreAction ? <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
+            <Popover visible={this.state.moreActionsVisible}
+                     onVisibleChange={this.handleVisibleChange}
+                     placement="bottomRight"
+                     content={this.content()}
+                     trigger="click">
+              <IconFont type="icon-gengduo"/>
+            </Popover>
+          </div> : <div/>}
+        </div>
       </Menu.Item>)
   };
 
-  handleClick = (item) => {
-    console.log(item)
-  };
+  /**
+   * 子菜单选中后出现更多功能按钮
+   * @param item
+   */
+  showSelectedItemMoreAction = (selectedItem) => {
+    //解构
+    let children = {...this.props.menuData};
+    //遍历所有item 找出选中的那个，改变 showMoreAction状态
+    const getAllMenus = (children) => {
+      for (let i = 0; i < children.length; i++) {
+        let deepChild = children[i].children;
+        if (deepChild.length === 0) {
+          if (children[i].id === selectedItem.key) {
+            children[i].showMoreAction = true;
+            this.setCurrentSelectedMenu(children[i])
+          } else {
+            children[i].showMoreAction = false
+          }
+        } else {
+          getAllMenus(children[i].children)
+        }
+      }
+    };
 
-  onSelect = (item) => {
-    console.log("onSelect:" + item)
-  };
-
-  componentWillMount() {
+    getAllMenus(children.children);
+    //重新渲染
     this.props.dispatch({
-      type: 'constructionModel/getEmployeeList'
+      type: 'constructionModel/showSelectedItemMoreActionIcon',
+      payload: {
+        menuData: children
+      }
+    });
+  };
+
+  /**
+   * 设置当前选中的menu
+   * @param item
+   */
+  setCurrentSelectedMenu = (item) => {
+    this.props.dispatch({
+      type: 'constructionModel/newData',
+      payload: {
+        currentSelectedMenu: item
+      }
+    });
+    this.searchCardListByTypeCode(item.dataCode)
+  };
+
+  /**
+   * 选中menu后立即搜索数据
+   * @param typeCode
+   */
+  searchCardListByTypeCode = (typeCode) => {
+    this.props.dispatch({
+      type: 'cardList/nextPage',
+      payload: {
+        page: 1,
+        typeCode: typeCode
+      }
+    });
+  };
+
+  /**
+   * menu item的点击事件
+   * @param item
+   */
+  handleClick = (item) => {
+  };
+
+  /**
+   * 选中menu item
+   * @param item
+   */
+  onSelect = (item) => {
+    console.log('onSelect',item);
+    this.showSelectedItemMoreAction(item);
+  };
+
+  /**
+   * subMenu点击时间
+   * @param key
+   * @param e
+   */
+  subMenuClick = (event) => {
+    console.log('subMenuClick', event);
+    const findItem = (children) => {
+      children.forEach((item) => {
+        if (item.id === event.key) {
+          console.log('find the item', item);
+          this.searchCardListByTypeCode(item.dataCode);
+        } else if (item.children.length >= 0) {
+          findItem(item.children)
+        }
+      })
+    };
+
+    findItem(this.props.menuData.children);
+  };
+
+  onOpenChange = (openKeys) => {
+    this.setState({
+      openKeys: openKeys
+    }, () => {
+
+      if (openKeys.length > this.state.preOpenKeys.length || this.state.preOpenKeys.length === 0) {
+        console.log('open');
+        this.subMenuClick({key: openKeys[openKeys.length - 1]});
+      } else {
+        console.log('close')
+      }
+      this.setState({
+        preOpenKeys: this.state.openKeys
+      })
+    });
+    console.log('openkeys', openKeys);
+  };
+
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'constructionModel/getEmployeeConstructionTree'
     })
   }
 
   render() {
+    const {menuData} = this.props;
     return (<div className={styles.construct}>
       <div style={{width: 'max-content'}}>
         <span className={styles.title}>组织结构</span>
@@ -166,8 +279,9 @@ export default class Construction extends React.Component {
           style={{}}
         />
       </div>
-      <a style={{color: '#333', marginTop: 16}}>全部</a>
+      <a style={{color: '#333', marginTop: 16}}>{menuData.dataName}</a>
       <Menu
+        onOpenChange={this.onOpenChange}
         onClick={this.handleClick}
         style={{width: 256}}
         onSelect={this.onSelect}
@@ -175,55 +289,7 @@ export default class Construction extends React.Component {
         defaultOpenKeys={['sub1']}
         mode="inline"
       >
-        <SubMenu
-          key="sub1"
-          title={
-            <span>
-              <span>Navigation One</span>
-            </span>
-          }
-        >
-          <Menu.ItemGroup key="g1" title="Item 1">
-            <Menu.Item key="1">Option 1</Menu.Item>
-            <Menu.Item key="2">Option 2</Menu.Item>
-          </Menu.ItemGroup>
-          <Menu.ItemGroup key="g2" title="Item 2">
-            <Menu.Item key="3">Option 3</Menu.Item>
-            <Menu.Item key="4">Option 4</Menu.Item>
-          </Menu.ItemGroup>
-        </SubMenu>
-        <SubMenu
-          key="sub2"
-          title={
-            <span>
-              <span>Navigation Two</span>
-            </span>
-          }
-        >
-          <Menu.Item key="5">Option 5</Menu.Item>
-          <Menu.Item key="6">Option 6</Menu.Item>
-          <SubMenu key="sub3" title="Submenu">
-            <Menu.Item key="7">Option 7</Menu.Item>
-            <Menu.Item key="8">
-              Option 8
-            </Menu.Item>
-            {this.constructionItem('13', 'Option13')}
-
-          </SubMenu>
-        </SubMenu>
-        <SubMenu
-          key="sub4"
-          title={
-            <span>
-              <span>Navigation Three</span>
-            </span>
-          }
-        >
-          <Menu.Item key="9">Option 9</Menu.Item>
-          <Menu.Item key="10">Option 10</Menu.Item>
-          <Menu.Item key="11">Option 11</Menu.Item>
-          <Menu.Item key="12">Option 12</Menu.Item>
-        </SubMenu>
+        {this.createMenu(menuData)}
       </Menu>
     </div>)
   }
