@@ -41,6 +41,9 @@ export default class SearchHeader extends React.Component {
   };
 
   onChange = (value) => {
+    this.setState({
+      status: value
+    });
     console.log(`selected ${value}`);
   };
 
@@ -82,7 +85,7 @@ export default class SearchHeader extends React.Component {
       <Select
         showSearch
         style={{width: 150, marginLeft: 24}}
-        placeholder="Select a person"
+        placeholder="请选择状态"
         optionFilterProp="children"
         onChange={this.onChange}
         onFocus={this.onFocus}
@@ -91,9 +94,9 @@ export default class SearchHeader extends React.Component {
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
       >
-        <Option value="jack">Jack</Option>
-        <Option value="lucy">Lucy</Option>
-        <Option value="tom">Tom</Option>
+        <Option value="">全部</Option>
+        <Option value="enable">启用</Option>
+        <Option value="disable">禁用</Option>
       </Select>
       <div className={styles.buttonParent}>
         <Button type="primary" onClick={() => {

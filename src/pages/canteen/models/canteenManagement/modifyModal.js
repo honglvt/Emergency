@@ -17,7 +17,6 @@ export default {
   },
   reducers: {
     show(state, {payload}) {
-      console.log(payload);
       return {...state, ...payload};
     },
     confirmLoading(state, {payload}) {
@@ -26,7 +25,6 @@ export default {
   },
   effects: {
     * confirm({payload}, {call, put}) {
-      console.log(payload);
       yield  put({
         type: 'confirmLoading',
         payload: {
@@ -40,7 +38,6 @@ export default {
       } else {
         response = yield call(updateCanteen, payload);
       }
-      console.log(response);
       yield  put({
         type: 'show',
         payload: {
@@ -48,6 +45,7 @@ export default {
           show: false
         }
       });
+      console.log('新增餐厅', response);
       if (response.code === 200) {
         message.success(payload.title + "成功");
         return 200;

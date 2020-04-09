@@ -178,7 +178,7 @@ export default class CanteenTable extends React.Component {
   render() {
     const {data, total, pages, loading} = this.props;
     return (<div className={styles.canteenList}>
-      <Table pagination={{total: total, pages: pages, pageSize: 10, onChange: this.onPageChange}}
+      <Table pagination={{total: total, pages: pages, showSizeChanger: false, onChange: this.onPageChange}}
              columns={this.initColumns()}
              dataSource={data}
              loading={loading}

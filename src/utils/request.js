@@ -27,6 +27,7 @@ const codeMessage = {
  */
 
 const errorHandler = error => {
+  console.log('error', error);
   const {response} = error;
 
   if (response && response.status) {
@@ -78,16 +79,18 @@ request.interceptors.request.use(async (url, options) => {
 });
 
 // response拦截器, 处理response
-request.interceptors.response.use((response, options) => {
-  console.log('interceptors',response.body);
+request.interceptors.response.use(async (response, options) => {
   let token = response.headers.get("Token");
   if (token) {
     localStorage.setItem("Token", token);
   }
-  return response;
+  const data = await response.clone().json();
+  if (data && data.code === 200) {
+    return data
+  } else {
+    return response
+  }
+
 });
 
-// request.interceptors.request.use(async (url, options) => {
-//
-// });
 export default request;

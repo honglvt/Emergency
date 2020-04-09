@@ -19,7 +19,6 @@ export default {
   },
   reducers: {
     'show'(state, {payload}) {
-      console.log(payload);
       return {...state, ...payload};
     },
     'targetKeys'(state, {payload}) {

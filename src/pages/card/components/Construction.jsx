@@ -156,9 +156,9 @@ export default class Construction extends React.Component {
         if (deepChild.length === 0) {
           if (children[i].id === selectedItem.key) {
             children[i].showMoreAction = true;
-            this.setCurrentSelectedMenu(children[i])
+            this.setCurrentSelectedMenu(children[i]);
           } else {
-            children[i].showMoreAction = false
+            children[i].showMoreAction = false;
           }
         } else {
           getAllMenus(children[i].children)
@@ -166,7 +166,7 @@ export default class Construction extends React.Component {
       }
     };
 
-    getAllMenus(children.children);
+    console.log('getAllMenus', getAllMenus(children.children));
     //重新渲染
     this.props.dispatch({
       type: 'constructionModel/showSelectedItemMoreActionIcon',
@@ -187,7 +187,9 @@ export default class Construction extends React.Component {
         currentSelectedMenu: item
       }
     });
-    this.searchCardListByTypeCode(item.dataCode)
+    if (item.dataCode) {
+      this.searchCardListByTypeCode(item.dataCode)
+    }
   };
 
   /**
@@ -216,12 +218,12 @@ export default class Construction extends React.Component {
    * @param item
    */
   onSelect = (item) => {
-    console.log('onSelect',item);
+    console.log('onSelect', item);
     this.showSelectedItemMoreAction(item);
   };
 
   /**
-   * subMenu点击时间
+   * subMenu展开时 搜索
    * @param key
    * @param e
    */
@@ -241,6 +243,10 @@ export default class Construction extends React.Component {
     findItem(this.props.menuData.children);
   };
 
+  /**
+   * submenu展开或者关闭
+   * @param openKeys
+   */
   onOpenChange = (openKeys) => {
     this.setState({
       openKeys: openKeys
@@ -266,7 +272,7 @@ export default class Construction extends React.Component {
   }
 
   render() {
-    const {menuData} = this.props;
+    const {menuData, currentSelectedMenu} = this.props;
     return (<div className={styles.construct}>
       <div style={{width: 'max-content'}}>
         <span className={styles.title}>组织结构</span>
@@ -281,6 +287,7 @@ export default class Construction extends React.Component {
       </div>
       <a style={{color: '#333', marginTop: 16}}>{menuData.dataName}</a>
       <Menu
+        selectedKeys={[currentSelectedMenu.id]}
         onOpenChange={this.onOpenChange}
         onClick={this.handleClick}
         style={{width: 256}}

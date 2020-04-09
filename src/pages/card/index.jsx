@@ -4,7 +4,7 @@ import {Row, Col} from 'antd';
 import SearchHeader from "./components/SearchHeader";
 import Construction from "./components/Construction";
 import CardTables from "./components/CardTables";
-import UserModal from "./components/modal/UserModal";
+import AddUserModal from "./components/modal/AddUserModal";
 import {connect} from 'dva';
 import AddChildEmployeeModal from "./components/modal/AddChildEmployeeModal";
 
@@ -44,7 +44,20 @@ export default class CardManagement extends React.Component {
       type: 'userModel/show',
       payload: {
         visible: true,
-        title: target
+        title: target,
+        name: 'hc',
+        cardNumber: '123123',
+        number: '123',
+        phone: '123231313',
+        status: 'disable',
+        options: [{
+          typeCode: '1',
+          typeName: '部门1'
+        }, {
+          typeCode: '2',
+          typeName: '部门2'
+        },
+        ]
       }
     })
   };
@@ -65,7 +78,7 @@ export default class CardManagement extends React.Component {
           </Row>
           <CardTables/>
         </div>
-        <UserModal/>
+        <AddUserModal/>
         <AddChildEmployeeModal/>
       </div>)
   }

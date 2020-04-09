@@ -30,7 +30,9 @@ export default {
         }
       });
       const response = yield call(getCanteenList, payload.page);
-
+      response.data.list.forEach((item, index) => {
+        item.key = item.id
+      });
       yield put({
         type: 'newList',
         payload: {

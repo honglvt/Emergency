@@ -21,7 +21,6 @@ export default {
   },
   reducers: {
     'newData'(state, {payload}) {
-      console.log('newData', payload);
       return {
         ...state, ...payload
       }
@@ -30,7 +29,6 @@ export default {
   effects: {
     * confirm({payload}, {call, put}) {
       const response = yield call(payload.add ? addChildEmployee : updateChildEmployee, payload);
-      console.log('response', response.data);
       yield put({
         type: 'newData',
         payload: {

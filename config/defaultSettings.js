@@ -9,7 +9,7 @@ export default {
   fixSiderbar: false,
   colorWeak: false,
   menu: {
-    locale: true,
+    locale: false,
   },
   title: '餐厅管理后台',
   pwa: false,

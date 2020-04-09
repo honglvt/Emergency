@@ -19,11 +19,10 @@ export default {
     content: '',
     status: '',
     typeCode: '',
-    pageNum:0
+    pageNum: 0
   },
   reducers: {
     'newData'(state, {payload}) {
-      console.log('cardList', payload);
       return {
         ...state, ...payload
       }
@@ -42,6 +41,9 @@ export default {
       });
 
       const response = yield call(getEmployeeList, payload);
+      response.data.list.forEach((item) => {
+        item.key = item.id;
+      });
       yield put({
         type: 'newData',
         payload: {
@@ -49,7 +51,7 @@ export default {
           total: response.data.total,
           pages: response.data.pages,
           loading: false,
-          pageNum:response.data.pageNum
+          pageNum: response.data.pageNum
         }
       })
     },

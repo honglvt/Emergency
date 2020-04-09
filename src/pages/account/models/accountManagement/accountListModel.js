@@ -33,11 +33,7 @@ export default {
       const response = yield call(getAccountList, payload.page);
 
       for (let i = 0; i < response.data.list.length; i++) {
-        // if (response.data.list[i].canteenList.length === 0) {
-        //   response.data.list[i].canteenList.push({
-        //     name: ''
-        //   })
-        // }
+        response.data.list[i].key = response.data.list[i].id;
         let canteensString = '';
         response.data.list[i].canteenList.forEach((item, index) => {
           canteensString += item.name;
@@ -48,7 +44,6 @@ export default {
           }
         });
         response.data.list[i].canteenListString = canteensString;
-        console.log(canteensString)
       }
 
       yield put({

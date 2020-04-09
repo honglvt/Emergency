@@ -58,7 +58,6 @@ const routes = [
             .default,
         })
       : require('../../layouts/SecurityLayout').default,
-    authority: ['admin', 'user'],
     routes: [
       {
         path: '/',
@@ -70,7 +69,6 @@ const routes = [
                 .default,
             })
           : require('../../layouts/BasicLayout').default,
-        authority: ['admin', 'user'],
         routes: [
           {
             path: '/',

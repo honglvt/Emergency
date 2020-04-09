@@ -1,4 +1,5 @@
 import {message} from 'antd';
+import {addStaff} from '../service';
 
 /**
  *WebStorm create by chenhong on 2020/3/24
@@ -9,12 +10,11 @@ export default {
   state: {
     visible: false,
     title: '',
-    confirmLoading: false,
-    userName: '',
+    name: '',
     phone: '',
-    memberNum: '',
-    cardNum: '',
-    bu: '',
+    number: '',
+    cardNumber: '',
+    options: [],
     status: ''
   },
   reducers: {
@@ -28,29 +28,19 @@ export default {
   },
   effects: {
     * confirm({payload}, {call, put}) {
-      console.log(payload);
+      const response = yield call(addStaff, payload);
+      if (response.code === 200) {
+        message.success("成功");
+      }else {
+        console.log('confirm',response);
+        message.error(response.msg)
+      }
       yield  put({
-        type: 'confirmLoading',
+        type: 'show',
         payload: {
-          confirmLoading: true,
+          visible: false
         }
       });
-      // const response = yield call(modifyCanteen, payload);
-      const response = {
-        code: 200
-      };
-      console.log(response);
-      if (response.code === 200) {
-        yield  put({
-          type: 'show',
-          payload: {
-            confirmLoading: false,
-            show: false
-          }
-        });
-        message.success(payload.title + "成功");
-      }
-
     }
   }
 }

@@ -9,17 +9,24 @@ class SecurityLayout extends React.Component {
     isReady: false,
   };
 
+  constructor(props) {
+    super(props);
+    console.log('SecurityLayout componentWillMount');
+    this.props.dispatch({
+      type: 'login/login',
+      payload: {
+        token: 'abcd'
+      },
+    });
+  }
+
   componentDidMount() {
     this.setState({
       isReady: true,
     });
-    const {dispatch} = this.props;
+  }
 
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
-    }
+  componentWillMount() {
   }
 
   render() {
@@ -28,19 +35,19 @@ class SecurityLayout extends React.Component {
     // 你可以把它替换成你自己的登录认证规则（比如判断 token 是否存在）
 
     // const isLogin = currentUser && currentUser.userid;
-    console.log("currentUser: ", currentUser);
-    const isLogin = login;
-    const queryString = stringify({
-      redirect: window.location.href,
-    });
-
-    if ((!isLogin && loading) || !isReady) {
-      return <PageLoading/>;
-    }
-
-    if (!isLogin && window.location.pathname !== '/user/login') {
-      return <Redirect to={`/user/login?${queryString}`}/>;
-    }
+    // let c_token = localStorage.getItem("Token");
+    // const isLogin = login;
+    // const queryString = stringify({
+    //   redirect: window.location.href,
+    // });
+    //
+    // if ((!isLogin && loading) || !isReady) {
+    //   return <PageLoading/>;
+    // }
+    //
+    // if (!isLogin && window.location.pathname !== '/user/login') {
+    //   return <Redirect to={`/user/login?${queryString}`}/>;
+    // }
 
     return children;
   }

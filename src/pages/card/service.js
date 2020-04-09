@@ -39,7 +39,11 @@ export async function getEmployeeList(params) {
   });
 }
 
-
+/**
+ * 新增部门
+ * @param params
+ * @returns {Promise<void>}
+ */
 export async function addChildEmployee(params) {
   return request('/api/admin/employee/v1/dept/save', {
     method: 'POST',
@@ -53,6 +57,11 @@ export async function addChildEmployee(params) {
 
 }
 
+/**
+ * 修改部门
+ * @param params
+ * @returns {Promise<void>}
+ */
 export async function updateChildEmployee(params) {
   return request('/api/admin/employee/v1/dept/update', {
     method: 'PUT',
@@ -64,5 +73,25 @@ export async function updateChildEmployee(params) {
       pId: params.pId
     }
   });
-
 }
+
+/**
+ * 新增员工
+ * @param params
+ * @returns {Promise<void>}
+ */
+export async function addStaff(params) {
+  return request('/api/admin/employee/v1/save', {
+    method: 'POST',
+    data: {
+      cardNumber: params.cardNumber,
+      name: params.name,
+      number: params.number,
+      phone: params.phone,
+      status: params.status,
+      typeCode: params.type[1],
+      typeName: params.type[0],
+    }
+  });
+}
+

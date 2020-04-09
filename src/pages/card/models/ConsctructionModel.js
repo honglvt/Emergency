@@ -29,7 +29,6 @@ export default {
   },
   reducers: {
     'newData'(state, {payload}) {
-      console.log('constructionModel newData', payload);
       return {
         ...state, ...payload
       }
@@ -38,7 +37,6 @@ export default {
   effects: {
     * getEmployeeConstructionTree({payload}, {call, put}) {
       const response = yield call(getEmployeeConstructionTree);
-      console.log('response', response.data);
       if (payload) {
 
         const getAllMenus = (children) => {
@@ -56,7 +54,6 @@ export default {
           }
         };
         getAllMenus(response.data.children);
-        console.log('response af getAllMenus', response.data);
       }
       if (response.code === 200) {
         yield put({

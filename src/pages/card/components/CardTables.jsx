@@ -110,6 +110,7 @@ export default class CardTables extends React.Component {
   render() {
     const {data, total, loading, pages, pageNum} = this.props;
     const pagination = {
+      showSizeChanger:false,
       onChange: this.paginationChange,
       total: total,
       pages: pages,

@@ -98,12 +98,10 @@ export default {
     {
       path: '/',
       component: '../layouts/SecurityLayout',
-      authority: ['admin', 'user'],
       routes: [
         {
           path: '/',
           component: '../layouts/BasicLayout',
-          authority: ['admin', 'user'],
           routes: [
             {
               path: '/',
