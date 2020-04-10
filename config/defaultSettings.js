@@ -11,7 +11,7 @@ export default {
   menu: {
     locale: false,
   },
-  title: '餐厅管理后台',
+  title: '应急管理系统',
   pwa: false,
-  iconfontUrl: '//at.alicdn.com/t/font_1713482_bd8gqd80ogr.js',
+  iconfontUrl: '//at.alicdn.com/t/font_1745698_xhbegncjdqb.js',
 };

@@ -105,65 +105,37 @@ export default {
           routes: [
             {
               path: '/',
-              redirect: '/canteen',
-            },
-            // {
-            //   path: '/welcome',
-            //   name: '餐厅管理',
-            //   icon: 'smile',
-            //   component: './Welcome',
-            // },
-            // {
-            //   path: '/admin',
-            //   name: '账户管理',
-            //   icon: 'crown',
-            //   component: './Admin',
-            //   routes: [
-            //     {
-            //       path: '/admin/sub-page',
-            //       name: 'sub-page',
-            //       icon: 'smile',
-            //       component: './Welcome',
-            //     },
-            //   ],
-            // },
-            // {
-            //   name: '餐卡管理',
-            //   icon: 'table',
-            //   path: '/list',
-            //   component: './ListTableList',
-            // },
-            {
-              path: '/canteen',
-              name: '餐厅管理',
-              icon: 'icon-zhanghuguanli',
-              component: './canteen'
+              redirect: '/overview',
             },
             {
-              path: '/account',
-              name: '账户管理',
-              icon: 'icon-zhanghuguanli',
-              component: '../layouts/BlankLayout',
-              routes: [
-                {
-                  path: '/account',
-                  redirect: '/account/list',
-                },
-                {
-                  path: '/account/sub-account/:action',
-                  component: './account/ModifyAccount',
-                },
-                {
-                  path: '/account/list',
-                  component: './account',
-                },
-              ],
+              path: '/overview',
+              name: '概览',
+              icon: 'icon-overview',
+              component: './overview'
             },
             {
-              path: '/card',
-              name: '餐卡管理',
-              component: './card',
-              icon: 'icon-cankaguanli'
+              path: '/programme',
+              name: '方案管理',
+              icon: 'icon-programme',
+              component: './programme',
+            },
+            {
+              path: '/devices',
+              name: '设备管理',
+              component: './devices',
+              icon: 'icon-devices'
+            },
+            {
+              path: '/namelist',
+              name: '名单管理',
+              component: './namelist',
+              icon: 'icon-namelist'
+            },
+            {
+              path: '/cars',
+              name: '车辆管理',
+              component: './cars',
+              icon: 'icon-cars'
             },
             {
               component: './404',

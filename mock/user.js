@@ -154,4 +154,6 @@ export default {
     });
   },
   'GET  /api/login/captcha': getFakeCaptcha,
+  'GET  /api/admin/current': {code:200,msg:'success',data:{name:'hc',avatar:''}},
+
 };
