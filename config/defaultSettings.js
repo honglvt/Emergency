@@ -11,7 +11,7 @@ export default {
   menu: {
     locale: false,
   },
-  title: '应急管理系统',
+  title: '智慧订餐',
   pwa: false,
-  iconfontUrl: '//at.alicdn.com/t/font_1745698_xhbegncjdqb.js',
+  iconfontUrl: '//at.alicdn.com/t/font_1745698_aca32vrco4l.js',
 };

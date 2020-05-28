@@ -38,7 +38,7 @@ const menuDataRender = menuList =>
 
 const defaultFooterDom = (
   <DefaultFooter
-    copyright="2020 应急管理有限公司"
+    copyright="2020 智慧订餐平台"
     links={[
       // {
       //   key: 'Ant Design Pro111',

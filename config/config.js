@@ -105,56 +105,80 @@ export default {
           routes: [
             {
               path: '/',
-              redirect: '/overview',
+              redirect: '/thumb',
             },
+            // {
+            //   path: '/overview',
+            //   name: '概览',
+            //   icon: 'icon-overview',
+            //   component: './overview'
+            // },
+            // {
+            //   path: '/programme',
+            //   name: '方案管理',
+            //   icon: 'icon-programme',
+            //   component: '../layouts/BlankLayout',
+            //   routes:[
+            //     {
+            //       path: '/',
+            //       redirect: '/account/list',
+            //     },
+            //     {
+            //       path: '/programme/list',
+            //       name: '方案列表',
+            //       icon: 'icon-programme',
+            //       component: './programme/index',
+            //     },
+            //     {
+            //       path: '/programme/pages/addProgramme',
+            //       name: '新增方案',
+            //       icon: 'icon-programme',
+            //       component: './programme/pages/addProgramme',
+            //     }
+            //   ]
+            // },
+            // {
+            //   path: '/devices',
+            //   name: '设备管理',
+            //   component: './devices',
+            //   icon: 'icon-devices'
+            // },
             {
-              path: '/overview',
+              path: '/thumb',
               name: '概览',
-              icon: 'icon-overview',
-              component: './overview'
-            },
-            {
-              path: '/programme',
-              name: '方案管理',
-              icon: 'icon-programme',
-              component: '../layouts/BlankLayout',
-              routes:[
-                {
-                  path: '/',
-                  redirect: '/account/list',
-                },
-                {
-                  path: '/programme/list',
-                  name: '方案列表',
-                  icon: 'icon-programme',
-                  component: './programme/index',
-                },
-                {
-                  path: '/programme/pages/addProgramme',
-                  name: '新增方案',
-                  icon: 'icon-programme',
-                  component: './programme/pages/addProgramme',
-                }
-              ]
-            },
-            {
-              path: '/devices',
-              name: '设备管理',
-              component: './devices',
+              component: './thumb',
               icon: 'icon-devices'
             },
             {
-              path: '/namelist',
-              name: '名单管理',
-              component: './namelist',
-              icon: 'icon-namelist'
+              path: '/food',
+              name: '菜品管理',
+              component: './foodmanagement',
+              icon: 'icon-caipin'
             },
             {
-              path: '/cars',
-              name: '车辆管理',
-              component: './cars',
-              icon: 'icon-cars'
+              path: '/order',
+              name: '订单管理',
+              component: './ordermanagement',
+              icon: 'icon-order'
             },
+            {
+              path: '/settings',
+              name: '系统设置',
+              component: './settings',
+              icon: 'icon-shezhi'
+            },
+            // {
+            //   path: '/namelist',
+            //   name: '名单管理',
+            //   component: './namelist',
+            //   icon: 'icon-namelist'
+            // },
+            // {
+            //   path: '/cars',
+            //   name: '车辆管理',
+            //   component: './cars',
+            //   icon: 'icon-cars'
+            // },
             {
               component: './404',
             }
