@@ -18,7 +18,6 @@ export default class ThumbTitle extends React.Component {
     this.today = getNowDate();
   }
 
-
   render() {
     return (<div className={styles.thumbTitle}>
       <div style={{display: 'flex', alignItems: 'center'}}>

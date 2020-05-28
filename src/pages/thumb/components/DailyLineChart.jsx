@@ -70,8 +70,11 @@ export default class DailyLineChart extends React.Component {
      * 折线图
      */
     dailyChart.setOption({
+      legend:{
+        data:['预定','取餐']
+      },
       grid: {
-        left: 50
+        left: 50,
       },
       xAxis: {
         boundaryGap: false,
@@ -105,8 +108,8 @@ export default class DailyLineChart extends React.Component {
   render() {
     return (
       <div className={styles.chartParent}>
-        <div>预定取餐曲线图</div>
-        <div id='daily-chart' style={{width: '100%', height: '450px'}}>
+        <div style={{color:'#333333',fontSize:'20px',fontWeight:'bold'}}>预定取餐曲线图</div>
+        <div id='daily-chart' style={{width: '100%', height: '350px'}}>
         </div>
       </div>
     )

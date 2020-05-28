@@ -107,42 +107,42 @@ export default {
               path: '/',
               redirect: '/thumb',
             },
-            // {
-            //   path: '/overview',
-            //   name: '概览',
-            //   icon: 'icon-overview',
-            //   component: './overview'
-            // },
-            // {
-            //   path: '/programme',
-            //   name: '方案管理',
-            //   icon: 'icon-programme',
-            //   component: '../layouts/BlankLayout',
-            //   routes:[
-            //     {
-            //       path: '/',
-            //       redirect: '/account/list',
-            //     },
-            //     {
-            //       path: '/programme/list',
-            //       name: '方案列表',
-            //       icon: 'icon-programme',
-            //       component: './programme/index',
-            //     },
-            //     {
-            //       path: '/programme/pages/addProgramme',
-            //       name: '新增方案',
-            //       icon: 'icon-programme',
-            //       component: './programme/pages/addProgramme',
-            //     }
-            //   ]
-            // },
-            // {
-            //   path: '/devices',
-            //   name: '设备管理',
-            //   component: './devices',
-            //   icon: 'icon-devices'
-            // },
+            {
+              path: '/overview',
+              name: '概览',
+              icon: 'icon-overview',
+              component: './overview'
+            },
+            {
+              path: '/programme',
+              name: '方案管理',
+              icon: 'icon-programme',
+              component: '../layouts/BlankLayout',
+              routes:[
+                {
+                  path: '/',
+                  redirect: '/account/list',
+                },
+                {
+                  path: '/programme/list',
+                  name: '方案列表',
+                  icon: 'icon-programme',
+                  component: './programme/index',
+                },
+                {
+                  path: '/programme/pages/addProgramme',
+                  name: '新增方案',
+                  icon: 'icon-programme',
+                  component: './programme/pages/addProgramme',
+                }
+              ]
+            },
+            {
+              path: '/devices',
+              name: '设备管理',
+              component: './devices',
+              icon: 'icon-devices'
+            },
             {
               path: '/thumb',
               name: '概览',

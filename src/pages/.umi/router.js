@@ -76,6 +76,120 @@ const routes = [
             exact: true,
           },
           {
+            path: '/overview',
+            name: '概览',
+            icon: 'icon-overview',
+            component: __IS_BROWSER
+              ? _dvaDynamic({
+                  app: require('@tmp/dva').getApp(),
+                  models: () => [
+                    import(/* webpackChunkName: 'p__overview__models__overviewModel.js' */ '/Users/chenhong/ReactProject/Emergency/src/pages/overview/models/overviewModel.js').then(
+                      m => {
+                        return { namespace: 'overviewModel', ...m.default };
+                      },
+                    ),
+                  ],
+                  component: () =>
+                    import(/* webpackChunkName: "p__overview" */ '../overview'),
+                  LoadingComponent: require('/Users/chenhong/ReactProject/Emergency/src/components/PageLoading/index')
+                    .default,
+                })
+              : require('../overview').default,
+            exact: true,
+          },
+          {
+            path: '/programme',
+            name: '方案管理',
+            icon: 'icon-programme',
+            component: __IS_BROWSER
+              ? _dvaDynamic({
+                  component: () =>
+                    import(/* webpackChunkName: "layouts__BlankLayout" */ '../../layouts/BlankLayout'),
+                  LoadingComponent: require('/Users/chenhong/ReactProject/Emergency/src/components/PageLoading/index')
+                    .default,
+                })
+              : require('../../layouts/BlankLayout').default,
+            routes: [
+              {
+                path: '/',
+                redirect: '/account/list',
+                exact: true,
+              },
+              {
+                path: '/programme/list',
+                name: '方案列表',
+                icon: 'icon-programme',
+                component: __IS_BROWSER
+                  ? _dvaDynamic({
+                      app: require('@tmp/dva').getApp(),
+                      models: () => [
+                        import(/* webpackChunkName: 'p__programme__models__programmeListModel.js' */ '/Users/chenhong/ReactProject/Emergency/src/pages/programme/models/programmeListModel.js').then(
+                          m => {
+                            return {
+                              namespace: 'programmeListModel',
+                              ...m.default,
+                            };
+                          },
+                        ),
+                      ],
+                      component: () =>
+                        import(/* webpackChunkName: "layouts__BlankLayout" */ '../programme/index'),
+                      LoadingComponent: require('/Users/chenhong/ReactProject/Emergency/src/components/PageLoading/index')
+                        .default,
+                    })
+                  : require('../programme/index').default,
+                exact: true,
+              },
+              {
+                path: '/programme/pages/addProgramme',
+                name: '新增方案',
+                icon: 'icon-programme',
+                component: __IS_BROWSER
+                  ? _dvaDynamic({
+                      app: require('@tmp/dva').getApp(),
+                      models: () => [
+                        import(/* webpackChunkName: 'p__programme__models__programmeListModel.js' */ '/Users/chenhong/ReactProject/Emergency/src/pages/programme/models/programmeListModel.js').then(
+                          m => {
+                            return {
+                              namespace: 'programmeListModel',
+                              ...m.default,
+                            };
+                          },
+                        ),
+                      ],
+                      component: () =>
+                        import(/* webpackChunkName: "layouts__BlankLayout" */ '../programme/pages/addProgramme'),
+                      LoadingComponent: require('/Users/chenhong/ReactProject/Emergency/src/components/PageLoading/index')
+                        .default,
+                    })
+                  : require('../programme/pages/addProgramme').default,
+                exact: true,
+              },
+              {
+                component: () =>
+                  React.createElement(
+                    require('/Users/chenhong/ReactProject/Emergency/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+                      .default,
+                    { pagesPath: 'src/pages', hasRoutesInConfig: true },
+                  ),
+              },
+            ],
+          },
+          {
+            path: '/devices',
+            name: '设备管理',
+            component: __IS_BROWSER
+              ? _dvaDynamic({
+                  component: () =>
+                    import(/* webpackChunkName: "p__devices" */ '../devices'),
+                  LoadingComponent: require('/Users/chenhong/ReactProject/Emergency/src/components/PageLoading/index')
+                    .default,
+                })
+              : require('../devices').default,
+            icon: 'icon-devices',
+            exact: true,
+          },
+          {
             path: '/thumb',
             name: '概览',
             component: __IS_BROWSER
