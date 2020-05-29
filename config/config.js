@@ -5,10 +5,10 @@ import themePluginConfig from './themePluginConfig';
 import proxy from './proxy';
 import webpackPlugin from './plugin.config';
 
-const {pwa} = defaultSettings; // preview.pro.ant.design only do not use in your production ;
+const { pwa } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
-const {ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION, REACT_APP_ENV} = process.env;
+const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION, REACT_APP_ENV } = process.env;
 const isAntDesignProPreview = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site';
 const plugins = [
   ['umi-plugin-antd-icon-config', {}],
@@ -34,11 +34,11 @@ const plugins = [
       },
       pwa: pwa
         ? {
-          workboxPluginMode: 'InjectManifest',
-          workboxOptions: {
-            importWorkboxFrom: 'local',
-          },
-        }
+            workboxPluginMode: 'InjectManifest',
+            workboxOptions: {
+              importWorkboxFrom: 'local',
+            },
+          }
         : false, // default close dll, because issue https://github.com/ant-design/ant-design-pro/issues/4665
       // dll features https://webpack.js.org/plugins/dll-plugin/
       // dll: {
@@ -107,65 +107,65 @@ export default {
               path: '/',
               redirect: '/thumb',
             },
-            {
-              path: '/overview',
-              name: '概览',
-              icon: 'icon-overview',
-              component: './overview'
-            },
-            {
-              path: '/programme',
-              name: '方案管理',
-              icon: 'icon-programme',
-              component: '../layouts/BlankLayout',
-              routes:[
-                {
-                  path: '/',
-                  redirect: '/account/list',
-                },
-                {
-                  path: '/programme/list',
-                  name: '方案列表',
-                  icon: 'icon-programme',
-                  component: './programme/index',
-                },
-                {
-                  path: '/programme/pages/addProgramme',
-                  name: '新增方案',
-                  icon: 'icon-programme',
-                  component: './programme/pages/addProgramme',
-                }
-              ]
-            },
-            {
-              path: '/devices',
-              name: '设备管理',
-              component: './devices',
-              icon: 'icon-devices'
-            },
+            // {
+            //   path: '/overview',
+            //   name: '概览',
+            //   icon: 'icon-overview',
+            //   component: './overview'
+            // },
+            // {
+            //   path: '/programme',
+            //   name: '方案管理',
+            //   icon: 'icon-programme',
+            //   component: '../layouts/BlankLayout',
+            //   routes:[
+            //     {
+            //       path: '/',
+            //       redirect: '/account/list',
+            //     },
+            //     {
+            //       path: '/programme/list',
+            //       name: '方案列表',
+            //       icon: 'icon-programme',
+            //       component: './programme/index',
+            //     },
+            //     {
+            //       path: '/programme/pages/addProgramme',
+            //       name: '新增方案',
+            //       icon: 'icon-programme',
+            //       component: './programme/pages/addProgramme',
+            //     }
+            //   ]
+            // },
+            // {
+            //   path: '/devices',
+            //   name: '设备管理',
+            //   component: './devices',
+            //   icon: 'icon-devices'
+            // },
             {
               path: '/thumb',
               name: '概览',
               component: './thumb',
-              icon: 'icon-devices'
+              icon: 'icon-devices',
             },
             {
               path: '/food',
               name: '菜品管理',
               component: './foodmanagement',
-              icon: 'icon-caipin'
+              icon: 'icon-caipin',
             },
             {
               path: '/order',
               name: '订单管理',
               component: './ordermanagement',
-              icon: 'icon-order'
+              icon: 'icon-order',
             },
             {
               path: '/settings',
               name: '系统设置',
               component: './settings',
-              icon: 'icon-shezhi'
+              icon: 'icon-shezhi',
             },
             // {
             //   path: '/namelist',
@@ -181,8 +181,7 @@ export default {
             // },
             {
               component: './404',
-            }
-
+            },
           ],
         },
       ],
@@ -199,7 +198,7 @@ export default {
   define: {
     REACT_APP_ENV: REACT_APP_ENV || false,
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
-    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '', // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
+      ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '', // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
   },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
@@ -234,6 +233,7 @@ export default {
   manifest: {
     basePath: '/',
   },
+  publicPath: './',
   proxy: proxy[REACT_APP_ENV || 'dev'],
   chainWebpack: webpackPlugin,
 };
