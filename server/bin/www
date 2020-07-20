@@ -1,0 +1,120 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+/*
+ * socket监听协议，用户信息
+ * {
+ *  id:String,
+ *  type:Int   0:管理系统， 1客户端
+ *  ip:String
+ * }
+ */
+const USER_INFO = 'USERINFO';
+var app = require('../app');
+var debug = require('debug')('server:server');
+var http = require('http');
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3001');
+app.set('port', port);
+//socket server used
+var server = http.createServer(app);
+var socket = require('socket.io')(server);
+
+//后台管理系统
+global.webServer;
+// Android机 二维码展示器
+global.client = new Map();
+socket.on('connection', (socketChild) => {
+    console.log('connection', socketChild.id);
+    socketChild.on(USER_INFO, (args) => {
+      let data = JSON.parse(args)
+      console.log(data)
+      //如果是服务器，保存改服务器，全局引用
+      if (data.type == 0) {
+        global.webServer = socketChild;
+      } else {
+        //保存客户机
+        global.client.set(data.id, socketChild);
+      }
+      //监听断线，从在线的设备中移除
+      socketChild.on('disconnect', () => {
+        console.log('disconnect', data)
+        global.client.delete(data.id);
+      })
+    })
+  })
+  .on('error', (error) => {
+    console.log('socket error', error);
+  });
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string' ?
+    'Pipe ' + port :
+    'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string' ?
+    'pipe ' + addr :
+    'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
